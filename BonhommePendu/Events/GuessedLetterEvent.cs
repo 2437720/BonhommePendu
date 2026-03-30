@@ -10,6 +10,7 @@ namespace BonhommePendu.Events
         // TODO: Compléter
         public GuessedLetterEvent(GameData gameData, char letter)
         {
+            
         }
     }
 }
