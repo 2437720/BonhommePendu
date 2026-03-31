@@ -12,6 +12,9 @@ namespace BonhommePendu.Events
             // TODO: Commencez par ICI
             GuessedLetterEvent guessdLetterEvent = new GuessedLetterEvent(gameData , letter);
 
+            
+                WrongGuessEvent wrongGuess = new WrongGuessEvent(gameData);
+            
 
             gameData.GuessedLetters.Add(letter);
 
