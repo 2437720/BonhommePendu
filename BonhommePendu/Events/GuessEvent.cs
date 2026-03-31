@@ -10,26 +10,53 @@ namespace BonhommePendu.Events
         // TODO: Compléter
         public GuessEvent(GameData gameData, char letter) {
             // TODO: Commencez par ICI
+            Events = new List<GameEvent>() { };
+            
             GuessedLetterEvent guessdLetterEvent = new GuessedLetterEvent(gameData , letter);
+            Events.Add(guessdLetterEvent);
 
 
-
-            for(int i = 0; i < gameData.Word.Length; i++)
+            bool wrongGuess = true;
+            for (int i = 0; i < gameData.Word.Length; i++)
             {
                 bool dansLeMot = gameData.HasSameLetterAtIndex(letter, i);
-                if(dansLeMot == true)
+                if (dansLeMot == true)
                 {
+                    
                     RevealLetterEvent revealLetterEvent = new RevealLetterEvent(gameData, letter, i);
-                    continue;
-                }
-
-                else if(i == gameData.Word.Length-1 && dansLeMot == false)
-                {
-                    WrongGuessEvent wrongGuessEvent = new WrongGuessEvent(gameData);
+                    Events.Add(revealLetterEvent);
+                    wrongGuess = false;
                 }
             }
 
-                gameData.GuessedLetters.Add(letter);
+            if (wrongGuess)
+            {
+
+                if(gameData.NbWrongGuesses == 6)
+                {
+                    LoseEvent loseEvent = new LoseEvent(gameData);
+                    Events.Add(loseEvent);
+                }
+                WrongGuessEvent wrongGuessEvent = new WrongGuessEvent(gameData);
+                Events.Add(wrongGuessEvent);
+
+            }
+
+            if (gameData.HasGuessedTheWord)
+            {
+                WinEvent winEvent = new WinEvent(gameData);
+                Events.Add(winEvent);
+
+              
+
+
+            }
+
+           
+
+            
+
+
 
         }
     }
