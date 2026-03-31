@@ -12,11 +12,24 @@ namespace BonhommePendu.Events
             // TODO: Commencez par ICI
             GuessedLetterEvent guessdLetterEvent = new GuessedLetterEvent(gameData , letter);
 
-            
-                WrongGuessEvent wrongGuess = new WrongGuessEvent(gameData);
-            
 
-            gameData.GuessedLetters.Add(letter);
+
+            for(int i = 0; i < gameData.Word.Length; i++)
+            {
+                bool dansLeMot = gameData.HasSameLetterAtIndex(letter, i);
+                if(dansLeMot == true)
+                {
+                    RevealLetterEvent revealLetterEvent = new RevealLetterEvent(gameData, letter, i);
+                    continue;
+                }
+
+                else if(i == gameData.Word.Length-1 && dansLeMot == false)
+                {
+                    WrongGuessEvent wrongGuessEvent = new WrongGuessEvent(gameData);
+                }
+            }
+
+                gameData.GuessedLetters.Add(letter);
 
         }
     }
